@@ -81,12 +81,11 @@ class Processor():
         prolog = PrologInterface()
         file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
         pl_data = quote_japanese_in_args(self.database)
-        print(pl_data)
         with open(file_path, 'w') as f:
             # f.write(self.database)
             f.write(pl_data)  # pldataは
 
         prolog.consult(file_path)
-        answers = list(prolog.query(query))
+        answers = prolog.query(query)
         os.remove(file_path)  # ファイル削除
         return answers
