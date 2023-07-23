@@ -1,15 +1,13 @@
 from prologpy.solver import Solver
 import pytholog
 from pyswip import Prolog
-# from pyswip_alt import Prolog
 import numpy as np
 import random
 import string
-from time import sleep
 import os
-import re
 from pyswip import Prolog
-from .quote_check import quote_japanese_in_args
+from quote_check import quote_japanese_in_args
+from pyswip_svr import PrologInterface
 
 
 def gen_random_name(n):
@@ -58,28 +56,7 @@ class Processor():
 
     def solve_pyswip_assert(self, query):
         prolog = Prolog()
-
         segments = self.database.replace(".", " ").split("\n")
-        """
-        file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
-        with open(file_path, 'w') as f:
-            f.write(self.rules)
-        
-        # 第3要素が空のときもしくは"・"もしくは"/"が含まれるとき
-        # シングルクオーテーションを付与する関数 ex)semantic(0,3,生成・消滅)  =>semantic(0,3,'生成・消滅')
-
-        def add_single_quotes_if_needed(text):
-            def repl(match):
-                arg = match.group(2)
-                if arg == '' or '・' in arg or '／' in arg or ' ' in arg:
-                    return f"{match.group(1)}'{arg}'{match.group(3)}"
-                else:
-                    return match.group(0)
-
-            pattern = r'(\w+\([^\),]*,[^\),]*,\s*)([^,\)]*)(\s*\))'
-            return re.sub(pattern, repl, text)
-        """
-
         # assertで1つずつ追加
 
         for segment in segments:
@@ -96,8 +73,20 @@ class Processor():
         # 再定義されてしまうので追加した定義をすべて削除
         for segment in segments:
             segment = quote_japanese_in_args(segment)
-            # print(segment)
             prolog.retract(segment)
 
-        # os.remove(file_path)  # ファイル削除
+        return answers
+
+    def solve_pyswip_svr(self, query):
+        prolog = PrologInterface()
+        file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
+        pl_data = quote_japanese_in_args(self.database)
+        print(pl_data)
+        with open(file_path, 'w') as f:
+            # f.write(self.database)
+            f.write(pl_data)  # pldataは
+
+        prolog.consult(file_path)
+        answers = list(prolog.query(query))
+        os.remove(file_path)  # ファイル削除
         return answers
