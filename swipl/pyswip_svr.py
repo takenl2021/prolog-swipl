@@ -4,7 +4,7 @@ import json
 
 class PrologInterface:
     def __init__(self):
-        self.server_url = 'http://localhost:8080/json'
+        self.server_url = 'http://montecarlo:5000/json'
         self.headers = {'content-type': 'application/json'}
 
     def consult(self, file):
@@ -29,7 +29,7 @@ class PrologInterface:
 
 if __name__ == "__main__":
     query = '著者(SENTENCE_ID,Work,WorkSloc,Auth,AuthSloc)'  # 問い合わせるクエリ
-    file = 'test2.pl'  # 読むファイル
+    file = '/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/bT2GVOGijF.pl'  # 読むファイル
 
     # クラスをインスタンス化
     prolog = PrologInterface()
