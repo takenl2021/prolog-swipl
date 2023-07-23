@@ -6,8 +6,8 @@ import random
 import string
 import os
 from pyswip import Prolog
-from quote_check import quote_japanese_in_args
-from pyswip_svr import PrologInterface
+from .quote_check import quote_japanese_in_args
+from .pyswip_svr import PrologInterface
 
 
 def gen_random_name(n):
