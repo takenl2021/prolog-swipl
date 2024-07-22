@@ -42,7 +42,7 @@ class Processor():
 
     def solve_pyswip(self, query):
         prolog = Prolog()
-        file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
+        file_path = f"/usr/app/gen_pl/{gen_random_name(10)}.pl"
         pl_data = quote_japanese_in_args(self.database)
         print(pl_data)
         with open(file_path, 'w') as f:
