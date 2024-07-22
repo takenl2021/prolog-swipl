@@ -10,9 +10,6 @@ setup(
     version='1.0.0',  # Required
     description='pyswipのProlog',  # Optional
     author='takenl2021',
-    classifiers=[  # Optional
-        'License :: MIT License',
-    ],
     install_requires=[
         'regex'
     ],
