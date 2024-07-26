@@ -13,5 +13,8 @@ setup(
     install_requires=[
         'regex'
     ],
+    classifiers=[  # Optional
+        'License :: MIT License',
+    ],
     packages=['swipl'],  # Required
 )
