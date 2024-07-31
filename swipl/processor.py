@@ -47,10 +47,8 @@ class Processor():
         with open(file_path, 'w') as f:
             f.write(self.database)
            
-
         prolog.consult(file_path)
         answers = list(prolog.query(query))
-        os.remove(file_path)  # ファイル削除
         return answers
 
 
