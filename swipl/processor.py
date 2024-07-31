@@ -42,7 +42,7 @@ class Processor():
 
     def solve_pyswip(self, query):
         prolog = Prolog()
-        file_path = f"/usr/app/gen_pl/temp_prolog_db..pl"
+        file_path = f"/usr/app/gen_pl/temp_prolog_db.pl"
 
         with open(file_path, 'w') as f:
             f.write(self.database)
