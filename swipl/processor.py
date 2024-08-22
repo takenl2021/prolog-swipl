@@ -39,16 +39,31 @@ class Processor():
         prolog(self.database.replace(".", "").split("\n"))
         answers = prolog.query(pytholog.Expr(query))
         return answers
-
+    
+    #1回で解探索するとき 
     def solve_pyswip(self, query):
         prolog = Prolog()
         file_path = f"/usr/app/gen_pl/temp_prolog_db.pl"
-
         with open(file_path, 'w') as f:
             f.write(self.database)
-           
+
         prolog.consult(file_path)
+        
         answers = list(prolog.query(query))
+        
+        return answers
+     
+     #1文ずつ解探索するとき 
+    def solve_pyswip2(self, query):
+        prolog = Prolog()
+        file_path = f"/usr/app/gen_pl/{gen_random_name(10)}.pl"
+        with open(file_path, 'w') as f:
+            f.write(self.database)
+
+        prolog.consult(file_path)
+        
+        answers = list(prolog.query(query))
+        os.remove(file_path)
         return answers
 
 
@@ -56,7 +71,7 @@ class Processor():
     def solve_pyswip_svr(self, query):
         prolog = PrologInterface()
         file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
-        pl_data = quote_japanese_in_args(self.database)
+        
         with open(file_path, 'w') as f:
             # f.write(self.database)
             f.write(pl_data)  # pldataは
