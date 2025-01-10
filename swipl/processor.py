@@ -57,26 +57,32 @@ class Processor():
     def solve_pyswip2(self, query):
         prolog = Prolog()
         file_path = f"/usr/app/gen_pl/{gen_random_name(10)}.pl"
+        #file_path = f"/usr/app/gen_pl/temp_prolog_db.pl"
         with open(file_path, 'w') as f:
             f.write(self.database)
 
         prolog.consult(file_path)
         
         answers = list(prolog.query(query))
-        os.remove(file_path)
+        #os.remove(file_path)
         return answers
 
 
-
+    #　swi-prologサーバをたてて解探索する
+    #  djangoが検索処理をマルチスレッドで実行できるようになり，swiplサーバを自由にカスタマイズできるが，
+    #  詳細な設定が記載されたdocumnetが少ないため，chatgptで聞いてもうまく調整できなかった
     def solve_pyswip_svr(self, query):
+        #　swi-prologは違うファイル名でconsultするとクエリがsyntax errorが発生した際に
+        #  前回のファイルの解を返却する謎仕様であるため同名ファイルを読み込ませる
         prolog = PrologInterface()
-        file_path = f"/home/katsura/kenkyu/B4/django-asa2prolog/gen_pl/{gen_random_name(10)}.pl"
-        
+        file_path = f"/usr/app/gen_pl/temp_prolog_db.pl"
+        #file_path = f"/usr/app/gen_pl/{gen_random_name(10)}.pl"
         with open(file_path, 'w') as f:
-            # f.write(self.database)
-            f.write(pl_data)  # pldataは
-
+            f.write(self.database)
+            #f.write(pl_data)  # pldataは
         prolog.consult(file_path)
+    
         answers = prolog.query(query)
-        os.remove(file_path)  # ファイル削除
+        
+        #os.remove(file_path)  # ファイル削除
         return answers
