@@ -17,6 +17,19 @@ def gen_random_name(n):
 class Processor():
     def __init__(self, knowledge, rules):
         self.database = knowledge + '\n' + rules
+        self.discontiguous_directives = """\
+    :- discontiguous simple_server:surf/3.
+    :- discontiguous simple_server:sloc/3.
+    :- discontiguous simple_server:morph/3.
+    :- discontiguous simple_server:chunk/3.
+    :- discontiguous simple_server:dep/3.
+    :- discontiguous simple_server:main/3.
+    :- discontiguous simple_server:part/3.
+    :- discontiguous simple_server:role/3.
+    :- discontiguous simple_server:semantic/3.
+    :- discontiguous simple_server:surfBF/3.
+    :- discontiguous simple_server:pos/3.
+    """
 
     def solve_prologpy(self, query):
         prolog = Solver(self.database)
@@ -62,7 +75,7 @@ class Processor():
             f.write(self.database)
 
         prolog.consult(file_path)
-        
+        print(prolog.query(query))
         answers = list(prolog.query(query))
         #os.remove(file_path)
         return answers
@@ -77,9 +90,10 @@ class Processor():
         prolog = PrologInterface()
         file_path = f"/usr/app/gen_pl/temp_prolog_db.pl"
         #file_path = f"/usr/app/gen_pl/{gen_random_name(10)}.pl"
+
         with open(file_path, 'w') as f:
-            f.write(self.database)
-            #f.write(pl_data)  # pldataは
+            #f.write(self.database)
+            f.write(f"{self.discontiguous_directives}\n{self.database}")
         prolog.consult(file_path)
     
         answers = prolog.query(query)
