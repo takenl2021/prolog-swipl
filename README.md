@@ -54,5 +54,4 @@ Docker環境で構築したため，ローカル環境での動作保証でき�
 
 基本的には**solve_pyswip_svr**メソッドを利用すべきであるが，SWI-Prologサーバーが起動できない場合は
 **solve_pyswip_svr**メソッドを用いてもよいが，警告表示が行われるため，処理時間がかなり低下する．
-django-asa2prolog(https://github.com/takenl2021/django-asa2prolog)のプロジェクトを使わずに，
 
