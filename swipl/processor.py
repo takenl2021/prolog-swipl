@@ -1,12 +1,8 @@
-from prologpy.solver import Solver
-import pytholog
 from pyswip import Prolog
-import numpy as np
 import random
 import string
 import os
-from pyswip import Prolog
-from .quote_check import quote_japanese_in_args
+from .quote_check import optimized_remove_quotes
 from .pyswip_svr import PrologInterface
 
 
@@ -31,28 +27,6 @@ class Processor():
     :- discontiguous simple_server:pos/3.
     """
 
-    def solve_prologpy(self, query):
-        prolog = Solver(self.database)
-        solutions = dict(prolog.find_solutions(query))
-        try:
-            transposed = np.array([solutions[key]
-                                  for key in solutions.keys()]).T
-            answers = []
-            for t in transposed:
-                answer = {}
-                for key, value in zip(solutions.keys(), t):
-                    answer[key] = value
-                answers.append(answer)
-            return answers
-        except:
-            return None
-
-    def solve_pytholog(self, query):
-        prolog = pytholog.KnowledgeBase("demo")
-        prolog(self.database.replace(".", "").split("\n"))
-        answers = prolog.query(pytholog.Expr(query))
-        return answers
-    
     #1回で解探索するとき 
     def solve_pyswip(self, query):
         prolog = Prolog()
@@ -97,6 +71,7 @@ class Processor():
         prolog.consult(file_path)
     
         answers = prolog.query(query)
-        
+        # swiplサーバから取得したprologデータをreact側で扱える形式に変換する関数
+        solutions = optimized_remove_quotes(answers)
         #os.remove(file_path)  # ファイル削除
         return answers

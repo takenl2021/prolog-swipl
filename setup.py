@@ -7,7 +7,7 @@ from os import path
 
 setup(
     name='swipl',  # Required
-    version='1.0.1',  # Required
+    version='1.0.2',  # Required
     description='pyswipのProlog',  # Optional
     author='takenl2021',
     install_requires=[

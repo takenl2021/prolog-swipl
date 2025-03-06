@@ -18,7 +18,6 @@ SWI-PrologのHTTPサーバでパターンマッチを実行するには，各自
 ### .envファイル
 ```
 SWI_PROLOG_HOST_API=http://localhost:5000
-PROLOG_FILE_PATH=/usr/app/gen_pl
 ```
 django-asa2prolog(https://github.com/takenl2021/django-asa2prolog) のプロジェクトの場合はexample.envに設定する．
 ## 使用例
